@@ -6,6 +6,8 @@ import com.example.studychat.models.StudyRoom;
 import com.example.studychat.repositores.ChatMessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 public class ChatMessageService {
 
     @Autowired
@@ -25,6 +27,13 @@ public class ChatMessageService {
         }
 
         return chatMessageRepository.save(message);
+    }
+
+    public List<ChatMessage> getMessagesForRoom(StudyRoom studyRoom) throws StudyChatException {
+        if (studyRoom == null) {
+            throw new StudyChatException("Study room cannot be null.");
+        }
+        return chatMessageRepository.findByStudyRoom(studyRoom);
     }
 
 }
