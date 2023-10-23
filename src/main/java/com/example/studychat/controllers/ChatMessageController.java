@@ -1,6 +1,5 @@
 package com.example.studychat.controllers;
 
-import com.example.studychat.exceptions.StudyChatException;
 import com.example.studychat.models.ChatMessage;
 import com.example.studychat.models.StudyRoom;
 import com.example.studychat.services.ChatMessageService;
@@ -22,8 +21,8 @@ public class ChatMessageController {
     private StudyRoomService studyRoomService;
 
     @PostMapping("/send")
-    public ResponseEntity<ChatMessage> sendMessage(@PathVariable Long roomId, @RequestBody ChatMessage message) throws StudyChatException {
-        StudyRoom room = (StudyRoom) studyRoomService.findById(roomId).orElse(null);
+    public ResponseEntity<ChatMessage> sendMessage(@PathVariable Long roomId, @RequestBody ChatMessage message) {
+        StudyRoom room = studyRoomService.findById(roomId).orElse(null);
         if (room == null) {
             return ResponseEntity.notFound().build();
         }
@@ -34,7 +33,7 @@ public class ChatMessageController {
 
     @GetMapping
     public ResponseEntity<List<ChatMessage>> getMessagesForRoom(@PathVariable Long roomId) {
-        StudyRoom room = (StudyRoom) studyRoomService.findById(roomId).orElse(null);
+        StudyRoom room = studyRoomService.findById(roomId).orElse(null);
         if (room == null) {
             return ResponseEntity.notFound().build();
         }
