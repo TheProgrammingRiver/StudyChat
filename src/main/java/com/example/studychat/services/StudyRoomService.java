@@ -12,24 +12,21 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 public class StudyRoomService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StudyRoomService.class);
 
+    @Autowired
+    private StudyRoomRepository studyRoomRepository;
 
-@Autowired
-private StudyRoomRepository studyRoomRepository;
+    @Autowired
+    private UserService userService;
 
-@Autowired
-private UserService userService;
-
-
-public StudyRoom createRoom(StudyRoom studyRoom) {
+    public StudyRoom createRoom(StudyRoom studyRoom) {
         LOGGER.info("Creating study room with name: {}", studyRoom.getName());
         return studyRoomRepository.save(studyRoom);
-        }
+    }
 
     public List<StudyRoom> listAllRooms() {
         LOGGER.info("Listing all study rooms.");
@@ -41,9 +38,17 @@ public StudyRoom createRoom(StudyRoom studyRoom) {
         return studyRoomRepository.findById(roomId);
     }
 
+
+    public List<StudyRoom> findRoomsByUserId(Long userId) {
+        return studyRoomRepository.findRoomsByUserId(userId);
+    }
+
+    public boolean existsById(Long id) {
+        return studyRoomRepository.existsById(id);
+    }
+
     public StudyRoom joinRoom(Long roomId, User user) {
         StudyRoom room = this.findById(roomId).orElseThrow(() -> new StudyChatException("Study room not found."));
-
 
         User actualUser = userService.findByUsername(user.getUsername())
                 .orElseThrow(() -> new StudyChatException("User not found."));
@@ -55,6 +60,19 @@ public StudyRoom createRoom(StudyRoom studyRoom) {
         return studyRoomRepository.save(room);
     }
 
-    public boolean existsById(Long roomId) { return studyRoomRepository.existsById(roomId);}
-}
+    public StudyRoom leaveRoom(Long roomId, User user) {
+        StudyRoom room = this.findById(roomId).orElseThrow(() -> new StudyChatException("Study room not found."));
+        if (room == null) {
+            throw new StudyChatException("Study room not found.");
+        }
 
+        User actualUser = userService.findByUsername(user.getUsername())
+                .orElseThrow(() -> new StudyChatException("User not found."));
+        if (actualUser == null) {
+            throw new StudyChatException("User not found.");
+        }
+
+        room.getUsers().remove(actualUser);
+        return studyRoomRepository.save(room);
+    }
+}
