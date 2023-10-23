@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/studyrooms")
 public class StudyRoomController {
@@ -25,6 +27,18 @@ public class StudyRoomController {
         return new ResponseEntity<>(createdRoom, HttpStatus.CREATED);
     }
 
+    @GetMapping
+    public ResponseEntity<List<StudyRoom>> listAllRooms() {
+        List<StudyRoom> rooms = studyRoomService.listAllRooms();
+        return new ResponseEntity<>(rooms, HttpStatus.OK);
+    }
+
+    @GetMapping("/{roomId}")
+    public ResponseEntity<StudyRoom> getRoomDetails(@PathVariable Long roomId) {
+        StudyRoom room = studyRoomService.findById(roomId).orElseThrow(() -> new StudyChatException("Study room not found."));
+        return ResponseEntity.ok(room);
+    }
+
     @PostMapping("/{roomId}/join")
     public ResponseEntity<String> joinRoom(@PathVariable Long roomId, @RequestBody User user) {
         try {
@@ -34,13 +48,5 @@ public class StudyRoomController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-
-
-    @GetMapping("/{roomId}")
-    public ResponseEntity<StudyRoom> getRoomDetails(@PathVariable Long roomId) {
-        StudyRoom room = studyRoomService.findById(roomId).orElseThrow(() -> new StudyChatException("Study room not found."));
-        return ResponseEntity.ok(room);
-    }
-
 }
 
