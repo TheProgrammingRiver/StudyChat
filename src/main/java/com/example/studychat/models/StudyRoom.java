@@ -1,24 +1,29 @@
 package com.example.studychat.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-
+@Entity
+@Table(name = "study_rooms")
 public class StudyRoom {
 
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long roomId;
     private String name;
     private String subject;
 
     @JsonIgnore
+    @ManyToMany(mappedBy = "studyRooms")
     private Set<User> users = new HashSet<>();
 
     @JsonIgnore
+    @OneToMany(mappedBy = "studyRoom")
     private List<ChatMessage> messages;
 
     public StudyRoom() { }
