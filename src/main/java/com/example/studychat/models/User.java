@@ -1,16 +1,33 @@
 package com.example.studychat.models;
 
+import jakarta.persistence.*;
+
 import java.util.HashSet;
 import java.util.Set;
 
-
+@Entity
+@Table(name = "users")
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     private String username;
     private String password;
 
+    public User() { }
 
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_studyroom",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "room_id")
+    )
     private Set<StudyRoom> studyRooms = new HashSet<>();
 
 
