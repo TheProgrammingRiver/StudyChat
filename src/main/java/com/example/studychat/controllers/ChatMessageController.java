@@ -26,7 +26,7 @@ public class ChatMessageController {
         if (room == null) {
             return ResponseEntity.notFound().build();
         }
-        message.setStudyRoom(room); // Setting the room in the message
+        message.setStudyRoom(room);
         ChatMessage sentMessage = chatMessageService.sendMessage(message);
         return ResponseEntity.ok(sentMessage);
     }
