@@ -5,9 +5,11 @@ import com.example.studychat.models.ChatMessage;
 import com.example.studychat.models.StudyRoom;
 import com.example.studychat.repositores.ChatMessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ChatMessageService {
 
     @Autowired
@@ -29,11 +31,10 @@ public class ChatMessageService {
         return chatMessageRepository.save(message);
     }
 
-    public List<ChatMessage> getMessagesForRoom(StudyRoom studyRoom) throws StudyChatException {
+    public List<ChatMessage> getMessagesForRoom(StudyRoom studyRoom) {
         if (studyRoom == null) {
             throw new StudyChatException("Study room cannot be null.");
         }
         return chatMessageRepository.findByStudyRoom(studyRoom);
     }
-
 }
