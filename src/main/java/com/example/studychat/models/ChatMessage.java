@@ -1,17 +1,26 @@
 package com.example.studychat.models;
 
+
+import jakarta.persistence.*;
+
 import java.sql.Timestamp;
 
+@Entity
+@Table(name = "chat_messages")
 public class ChatMessage {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long messageId;
     private String text;
     private Timestamp timestamp;
 
-
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
     private User sender;
 
-
+    @ManyToOne
+    @JoinColumn(name = "room_id")
     private StudyRoom studyRoom;
 
     public ChatMessage() { }
