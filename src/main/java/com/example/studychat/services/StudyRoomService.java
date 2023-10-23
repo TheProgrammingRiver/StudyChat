@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -29,6 +30,11 @@ public StudyRoom createRoom(StudyRoom studyRoom) {
         LOGGER.info("Creating study room with name: {}", studyRoom.getName());
         return studyRoomRepository.save(studyRoom);
         }
+
+    public List<StudyRoom> listAllRooms() {
+        LOGGER.info("Listing all study rooms.");
+        return studyRoomRepository.findAll();
+    }
 
     public Optional<StudyRoom> findById(Long roomId) {
         LOGGER.info("Fetching study room by ID: {}", roomId);
