@@ -8,5 +8,6 @@ public class StudyRoomService {
     }
 
     public boolean existsById(Long roomId) {
+        return false;
     }
 }
