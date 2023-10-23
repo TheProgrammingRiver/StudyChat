@@ -33,7 +33,6 @@ public class UserService {
         return userRepository.save(user);
     }
 
-
     public Optional<User> findByUsername(String username) {
         LOGGER.info("Fetching user by username: {}", username);
         return Optional.ofNullable(userRepository.findByUsername(username)
@@ -43,4 +42,11 @@ public class UserService {
                 }));
     }
 
+    public boolean authenticate(String username, String password) {
+        User user = userRepository.findByUsername(username).orElse(null);
+        if (user != null && user.getPassword().equals(password)) {
+            return true;
+        }
+        return false;
+    }
 }
