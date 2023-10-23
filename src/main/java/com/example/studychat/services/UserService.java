@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-s
+
 import java.util.Optional;
 
 @Service
@@ -31,6 +31,16 @@ public class UserService {
         }
         LOGGER.info("Registering user with username: {}", user.getUsername());
         return userRepository.save(user);
+    }
+
+
+    public Optional<User> findByUsername(String username) {
+        LOGGER.info("Fetching user by username: {}", username);
+        return Optional.ofNullable(userRepository.findByUsername(username)
+                .orElseThrow(() -> {
+                    LOGGER.error("User with username {} not found.", username);
+                    return new StudyChatException("User with username " + username + " not found.");
+                }));
     }
 
 }
