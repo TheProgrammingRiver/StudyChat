@@ -48,5 +48,15 @@ public class StudyRoomController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping("/{roomId}/leave")
+    public ResponseEntity<String> leaveRoom(@PathVariable Long roomId, @RequestBody User user) {
+        try {
+            StudyRoom room = studyRoomService.leaveRoom(roomId, user);
+            return ResponseEntity.ok("Left successfully");
+        } catch (StudyChatException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 }
 
