@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 @RestController
 @RequestMapping("/studyroom/{roomId}/messages")
@@ -21,12 +22,22 @@ public class ChatMessageController {
 
     @PostMapping("/send")
     public ResponseEntity<ChatMessage> sendMessage(@PathVariable Long roomId, @RequestBody ChatMessage message) {
-        StudyRoom room = studyRoomService.findById(roomId).orElse(null);
+        StudyRoom room = (StudyRoom) studyRoomService.findById(roomId).orElse(null);
         if (room == null) {
             return ResponseEntity.notFound().build();
         }
         message.setStudyRoom(room); // Setting the room in the message
         ChatMessage sentMessage = chatMessageService.sendMessage(message);
         return ResponseEntity.ok(sentMessage);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ChatMessage>> getMessagesForRoom(@PathVariable Long roomId) {
+        StudyRoom room = (StudyRoom) studyRoomService.findById(roomId).orElse(null);
+        if (room == null) {
+            return ResponseEntity.notFound().build();
+        }
+        List<ChatMessage> messages = chatMessageService.getMessagesForRoom(room);
+        return ResponseEntity.ok(messages);
     }
 }
