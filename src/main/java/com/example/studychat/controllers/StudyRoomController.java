@@ -9,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/studyrooms")
 public class StudyRoomController {
@@ -27,6 +25,15 @@ public class StudyRoomController {
         return new ResponseEntity<>(createdRoom, HttpStatus.CREATED);
     }
 
+    @PostMapping("/{roomId}/join")
+    public ResponseEntity<String> joinRoom(@PathVariable Long roomId, @RequestBody User user) {
+        try {
+            StudyRoom room = studyRoomService.joinRoom(roomId, user);
+            return ResponseEntity.ok("Joined successfully");
+        } catch (StudyChatException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 
 
     @GetMapping("/{roomId}")
