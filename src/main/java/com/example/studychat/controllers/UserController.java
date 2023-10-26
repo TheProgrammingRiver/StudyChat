@@ -30,7 +30,7 @@ public class UserController {
         User registeredUser = userService.register(user);
         if (registeredUser != null) {
             Map<String, String> response = new HashMap<>();
-            response.put("message", "Registration successful.");
+            response.put("data", String.valueOf(registeredUser));
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
