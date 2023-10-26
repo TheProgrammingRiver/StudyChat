@@ -4,6 +4,7 @@ import com.example.studychat.exceptions.StudyChatException;
 import com.example.studychat.models.StudyRoom;
 import com.example.studychat.models.User;
 import com.example.studychat.services.StudyRoomService;
+import com.example.studychat.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,8 @@ public class StudyRoomController {
 
     @Autowired
     private StudyRoomService studyRoomService;
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/create")
     public ResponseEntity<StudyRoom> createRoom(@RequestBody StudyRoom studyRoom) {
@@ -41,10 +44,26 @@ public class StudyRoomController {
         return ResponseEntity.ok(room);
     }
 
+//    @PostMapping("/{roomId}/join")
+//    public ResponseEntity<Map<String, String>> joinRoom(@PathVariable Long roomId, @RequestBody User user) {
+//        try {
+//            StudyRoom room = studyRoomService.joinRoom(roomId, user);
+//            Map<String, String> response = new HashMap<>();
+//            response.put("message", "Joined successfully");
+//            return new ResponseEntity<>(response, HttpStatus.OK);
+//        } catch (StudyChatException e) {
+//            Map<String, String> errorResponse = new HashMap<>();
+//            errorResponse.put("error", e.getMessage());
+//            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+//
+//        }
+//    }
+
     @PostMapping("/{roomId}/join")
     public ResponseEntity<Map<String, String>> joinRoom(@PathVariable Long roomId, @RequestBody User user) {
         try {
-            StudyRoom room = studyRoomService.joinRoom(roomId, user);
+            User existingUser = userService.findByUsername(user.getUsername()).orElseThrow(() -> new StudyChatException("User not found."));
+            StudyRoom room = studyRoomService.joinRoom(roomId, existingUser);
             Map<String, String> response = new HashMap<>();
             response.put("message", "Joined successfully");
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -52,9 +71,9 @@ public class StudyRoomController {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("error", e.getMessage());
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-
         }
     }
+
 
     @PostMapping("/{roomId}/leave")
     public ResponseEntity<String> leaveRoom(@PathVariable Long roomId, @RequestBody User user) {

@@ -37,17 +37,32 @@ public class UserController {
     }
 
 
+//    @PostMapping("/login")
+//    public ResponseEntity<?> login(@RequestBody User user) {
+//        boolean isAuthenticated = userService.authenticate(user.getUsername(), user.getPassword());
+//        if (isAuthenticated) {
+//            User authenticatedUser = userService.findByUsername(user.getUsername()).orElse(null);
+//            if (authenticatedUser != null) {
+//                return new ResponseEntity<>(authenticatedUser, HttpStatus.OK);
+//            }
+//        }
+//        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//    }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
         boolean isAuthenticated = userService.authenticate(user.getUsername(), user.getPassword());
         if (isAuthenticated) {
             User authenticatedUser = userService.findByUsername(user.getUsername()).orElse(null);
             if (authenticatedUser != null) {
-                return new ResponseEntity<>(authenticatedUser, HttpStatus.OK);
+                Map<String, Object> response = new HashMap<>();
+                response.put("data", authenticatedUser);
+                return new ResponseEntity<>(response, HttpStatus.OK);
             }
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
+
 
 
 

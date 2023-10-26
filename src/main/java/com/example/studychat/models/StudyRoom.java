@@ -86,4 +86,14 @@ public class StudyRoom {
         return Objects.hash(roomId);
     }
 
+    @Override
+    public String toString() {
+        return "StudyRoom{" +
+                "roomId=" + roomId +
+                ", name='" + name + '\'' +
+                ", subject='" + subject + '\'' +
+                ", users=" + users +
+                ", messages=" + messages +
+                '}';
+    }
 }

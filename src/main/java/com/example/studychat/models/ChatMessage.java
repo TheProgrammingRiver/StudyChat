@@ -63,4 +63,15 @@ public class ChatMessage {
     public void setStudyRoom(StudyRoom studyRoom) {
         this.studyRoom = studyRoom;
     }
+
+    @Override
+    public String toString() {
+        return "ChatMessage{" +
+                "messageId=" + messageId +
+                ", text='" + text + '\'' +
+                ", timestamp=" + timestamp +
+                ", sender=" + sender +
+                ", studyRoom=" + studyRoom +
+                '}';
+    }
 }
