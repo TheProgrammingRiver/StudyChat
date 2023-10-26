@@ -33,6 +33,7 @@ public class StudyRoomService {
         return studyRoomRepository.findAll();
     }
 
+
     public Optional<StudyRoom> findById(Long roomId) {
         LOGGER.info("Fetching study room by ID: {}", roomId);
         return studyRoomRepository.findById(roomId);
