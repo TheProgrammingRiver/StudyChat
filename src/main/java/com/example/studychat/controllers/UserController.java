@@ -9,9 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -23,22 +26,30 @@ public class UserController {
     private StudyRoomService studyRoomService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody User user) {
+    public ResponseEntity<Map<String, String>> register(@RequestBody User user) {
         User registeredUser = userService.register(user);
         if (registeredUser != null) {
-            return new ResponseEntity<>("Registration successful.", HttpStatus.CREATED);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Registration successful.");
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
         }
-        return new ResponseEntity<>("Registration failed.", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody User user) {
+    public ResponseEntity<?> login(@RequestBody User user) {
         boolean isAuthenticated = userService.authenticate(user.getUsername(), user.getPassword());
         if (isAuthenticated) {
-            return new ResponseEntity<>("Login successful.", HttpStatus.OK);
+            User authenticatedUser = userService.findByUsername(user.getUsername()).orElse(null);
+            if (authenticatedUser != null) {
+                return new ResponseEntity<>(authenticatedUser, HttpStatus.OK);
+            }
         }
-        return new ResponseEntity<>("Invalid username or password.", HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
+
+
 
     @GetMapping("/{userId}")
     public ResponseEntity<User> getUserDetails(@PathVariable Long userId) {
