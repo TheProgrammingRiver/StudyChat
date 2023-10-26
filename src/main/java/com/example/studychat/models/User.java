@@ -28,6 +28,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "room_id")
     )
+
     private Set<StudyRoom> studyRooms = new HashSet<>();
 
 
@@ -57,5 +58,15 @@ public class User {
 
     public boolean isEmpty() {
         return studyRooms.isEmpty();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", studyRooms=" + studyRooms +
+                '}';
     }
 }
