@@ -9,6 +9,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -30,7 +32,7 @@ public class UserControllerTest {
         User mockUser = new User();
         when(userService.register(any(User.class))).thenReturn(mockUser);
 
-        ResponseEntity<String> response = userController.register(mockUser);
+        ResponseEntity<Map<String, String>> response = userController.register(mockUser);
 
         assertEquals(201, response.getStatusCodeValue());
     }
@@ -42,7 +44,7 @@ public class UserControllerTest {
         mockUser.setPassword("validPassword");
         when(userService.authenticate(anyString(), anyString())).thenReturn(true);
 
-        ResponseEntity<String> response = userController.login(mockUser);
+        ResponseEntity<Map<String, String>> response = (ResponseEntity<Map<String, String>>) userController.login(mockUser);
 
         assertEquals(200, response.getStatusCodeValue());
         verify(userService).authenticate(mockUser.getUsername(), mockUser.getPassword());
@@ -53,7 +55,7 @@ public class UserControllerTest {
         User mockUser = new User();
         when(userService.authenticate(anyString(), anyString())).thenReturn(false);
 
-        ResponseEntity<String> response = userController.login(mockUser);
+        ResponseEntity<Map<String, String>> response = (ResponseEntity<Map<String, String>>) userController.login(mockUser);
 
         assertEquals(401, response.getStatusCodeValue());
     }
@@ -63,7 +65,7 @@ public class UserControllerTest {
         User mockUser = new User();
         when(userService.register(any(User.class))).thenReturn(mockUser);
 
-        ResponseEntity<String> response = userController.register(mockUser);
+        ResponseEntity<Map<String, String>> response = userController.register(mockUser);
 
         assertEquals(201, response.getStatusCodeValue());
     }
@@ -75,7 +77,7 @@ public class UserControllerTest {
         mockUser.setPassword("validPassword");
         when(userService.authenticate(anyString(), anyString())).thenReturn(true);
 
-        ResponseEntity<String> response = userController.login(mockUser);
+        ResponseEntity<Map<String, String>> response = (ResponseEntity<Map<String, String>>) userController.login(mockUser);
 
         assertEquals(200, response.getStatusCodeValue());
     }
@@ -85,7 +87,7 @@ public class UserControllerTest {
         User mockUser = new User();
         when(userService.authenticate(anyString(), anyString())).thenReturn(false);
 
-        ResponseEntity<String> response = userController.login(mockUser);
+        ResponseEntity<Map<String, String>> response = (ResponseEntity<Map<String, String>>) userController.login(mockUser);
 
         assertEquals(401, response.getStatusCodeValue());
     }
