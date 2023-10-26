@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/studyrooms")
@@ -40,12 +42,17 @@ public class StudyRoomController {
     }
 
     @PostMapping("/{roomId}/join")
-    public ResponseEntity<String> joinRoom(@PathVariable Long roomId, @RequestBody User user) {
+    public ResponseEntity<Map<String, String>> joinRoom(@PathVariable Long roomId, @RequestBody User user) {
         try {
             StudyRoom room = studyRoomService.joinRoom(roomId, user);
-            return ResponseEntity.ok("Joined successfully");
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Joined successfully");
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (StudyChatException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", e.getMessage());
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+
         }
     }
 
