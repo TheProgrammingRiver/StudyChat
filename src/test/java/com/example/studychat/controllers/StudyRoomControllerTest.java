@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -102,7 +103,7 @@ public class StudyRoomControllerTest {
         User mockUser = new User();
         when(studyRoomService.joinRoom(any(Long.class), any(User.class))).thenReturn(mockRoom);
 
-        ResponseEntity<String> response = studyRoomController.joinRoom(1L, mockUser);
+        ResponseEntity<Map<String, String>> response = studyRoomController.joinRoom(1L, mockUser);
 
         assertEquals(200, response.getStatusCodeValue());
         assertEquals("Joined successfully", response.getBody());
