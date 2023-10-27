@@ -14,6 +14,8 @@ public class ChatMessage {
     private Long messageId;
     private String text;
     private Timestamp timestamp;
+    private Long id;
+    private String content;
 
     @ManyToOne
     @JoinColumn(name = "sender_id")
@@ -42,6 +44,30 @@ public class ChatMessage {
 
     public String getText() {
         return text;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public void setText(String text) {
