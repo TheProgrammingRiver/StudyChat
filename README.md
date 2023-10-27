@@ -20,7 +20,10 @@ All of my endpoints have been rigorously tested to ensure reliability. I use Moc
 ## 📚 Documentation & Planning
 
 - **User Stories**: [User Stories]
-- **ERD Diagram**: [ERD Diagram]
+- **ERD Diagram**:
+
+  **![Blank diagram (1)](https://github.com/TheProgrammingRiver/StudyChat/assets/114197158/372ca89b-a103-49f8-956b-1dee92583d2a)**
+
 
 ## 📦 Installation
 
