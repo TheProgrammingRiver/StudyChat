@@ -20,6 +20,14 @@ public class ChatMessageController {
     @Autowired
     private StudyRoomService studyRoomService;
 
+
+    /**
+     * Sends a chat message to a specific room.
+     *
+     * @param  roomId   the ID of the room to send the message to
+     * @param  message  the chat message to be sent
+     * @return          the response entity containing the sent message
+     */
     @PostMapping("/send")
     public ResponseEntity<ChatMessage> sendMessage(@PathVariable Long roomId, @RequestBody ChatMessage message) {
         StudyRoom room = studyRoomService.findById(roomId).orElse(null);
@@ -31,6 +39,13 @@ public class ChatMessageController {
         return ResponseEntity.ok(sentMessage);
     }
 
+
+    /**
+     * Retrieves the list of chat messages for a given room.
+     *
+     * @param  roomId  the ID of the room
+     * @return         the ResponseEntity containing the list of chat messages
+     */
     @GetMapping
     public ResponseEntity<List<ChatMessage>> getMessagesForRoom(@PathVariable Long roomId) {
         StudyRoom room = studyRoomService.findById(roomId).orElse(null);

@@ -23,6 +23,13 @@ public class UserService {
     }
 
 
+
+    /**
+     * Registers a new user.
+     *
+     * @param  user the user object to be registered
+     * @return      the registered user object
+     */
     public User register(User user) {
         Optional<User> existingUser = userRepository.findByUsername(user.getUsername());
         if(existingUser.isPresent()) {
@@ -33,6 +40,13 @@ public class UserService {
         return userRepository.save(user);
     }
 
+
+    /**
+     * Finds a user by their username.
+     *
+     * @param  username  the username of the user
+     * @return           an Optional containing the User if found, empty otherwise
+     */
     public Optional<User> findByUsername(String username) {
         LOGGER.info("Fetching user by username: {}", username);
         return Optional.ofNullable(userRepository.findByUsername(username)

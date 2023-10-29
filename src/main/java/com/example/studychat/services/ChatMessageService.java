@@ -18,6 +18,14 @@ public class ChatMessageService {
     @Autowired
     private StudyRoomService studyRoomService;
 
+
+    /**
+     * Sends a chat message and saves it to the chat message repository.
+     *
+     * @param  message   the chat message to be sent
+     * @return           the saved chat message
+     * @throws StudyChatException if the message is null or the study room does not exist
+     */
     public ChatMessage sendMessage(ChatMessage message) throws StudyChatException {
         if (message == null) {
             throw new StudyChatException("Message cannot be null.");

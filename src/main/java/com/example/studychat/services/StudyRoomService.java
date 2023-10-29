@@ -23,6 +23,13 @@ public class StudyRoomService {
     @Autowired
     private UserService userService;
 
+
+    /**
+     * Creates a study room with the given study room object.
+     *
+     * @param studyRoom the study room object to create
+     * @return the created study room object
+     */
     public StudyRoom createRoom(StudyRoom studyRoom) {
         LOGGER.info("Creating study room with name: {}", studyRoom.getName());
         return studyRoomRepository.save(studyRoom);
@@ -48,6 +55,15 @@ public class StudyRoomService {
         return studyRoomRepository.existsById(id);
     }
 
+
+    /**
+     * Joins a user to a study room.
+     *
+     * @param  roomId    the ID of the study room
+     * @param  user      the user to join the study room
+     * @return           the updated study room with the user joined
+     * @throws StudyChatException if the study room or user is not found
+     */
     public StudyRoom joinRoom(Long roomId, User user) {
         StudyRoom room = this.findById(roomId).orElseThrow(() -> new StudyChatException("Study room not found."));
 
